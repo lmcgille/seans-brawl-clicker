@@ -735,6 +735,11 @@ body {
   background: linear-gradient(90deg, #ffd54f, #ff8f00);
   color: #3e2723;
 }
+.rarity-ultra-legendary {
+  background: linear-gradient(90deg, #ff00ff, #ffd700);
+  color: #fff;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
 
 .brawler-stack {
   font-weight: 900;
@@ -909,6 +914,15 @@ body {
     0 0 0 2px rgba(0, 0, 0, 0.5),
     0 24px 60px rgba(0, 0, 0, 0.65),
     0 0 56px rgba(255, 204, 0, 0.28);
+}
+
+.box-reveal-card.is-ultra-legendary {
+  border-color: #ff00ff;
+  background: linear-gradient(165deg, #2a002a 0%, #1a001a 40%, #0a000a 100%);
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.5),
+    0 24px 60px rgba(0, 0, 0, 0.65),
+    0 0 56px rgba(255, 0, 255, 0.35);
 }
 
 .reveal-rarity-bar {

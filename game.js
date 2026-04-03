@@ -4,7 +4,7 @@
   const SAVE_KEY = "brawl-clicker-save-v3";
   const DUPE_STRENGTH = 0.35;
 
-  const RARITY_ORDER = ["common", "rare", "epic", "mythic", "legendary"];
+  const RARITY_ORDER = ["common", "rare", "epic", "mythic", "legendary", "ultra-legendary"];
 
   const RARITY = {
     common: { label: "Common", weight: 520, css: "rarity-common", revealClass: "" },
@@ -16,6 +16,12 @@
       weight: 20,
       css: "rarity-legendary",
       revealClass: "is-legendary",
+    },
+    "ultra-legendary": {
+      label: "Ultra Legendary",
+      weight: 5,
+      css: "rarity-ultra-legendary",
+      revealClass: "is-ultra-legendary",
     },
   };
 
@@ -186,6 +192,14 @@
       ability: "sandstorm",
       blurb: "Sandstorm sometimes doubles passive ticks.",
     },
+    {
+      id: "sean",
+      name: "Sean",
+      rarity: "ultra-legendary",
+      emoji: "💰",
+      ability: "coinGift",
+      blurb: "Gives 500 coins every 10 seconds.",
+    },
   ];
 
   const UPGRADES = [
@@ -256,12 +270,14 @@
   let pulseBear = 0;
   let pulseTurret = 0;
   let pulseSerenade = 0;
+  let pulseSean = 0;
   let leonHiddenUntil = 0;
 
   function resetPulses() {
     pulseBear = 0;
     pulseTurret = 0;
     pulseSerenade = 0;
+    pulseSean = 0;
     leonHiddenUntil = 0;
   }
 
@@ -383,6 +399,18 @@
       }
     } else pulseSerenade = 0;
 
+    const sean = abilityStrengthById("sean");
+    if (sean > 0) {
+      const iv = 10;
+      pulseSean += dt;
+      while (pulseSean >= iv) {
+        pulseSean -= iv;
+        state.coins += 500;
+        maybeAwardTrophy(state);
+        dirty = true;
+      }
+    } else pulseSean = 0;
+
     return dirty;
   }
 
@@ -462,7 +490,9 @@
     const pity = Math.min(100, (s.rollsSinceLegendary || 0) * 2);
     const table = RARITY_ORDER.map((id) => ({
       id,
-      w: RARITY[id].weight + (id === "legendary" ? pity : 0),
+      w:
+        RARITY[id].weight +
+        (id === "legendary" || id === "ultra-legendary" ? pity : 0),
     }));
     const total = table.reduce((a, t) => a + t.w, 0);
     let r = Math.random() * total;
@@ -587,9 +617,11 @@
     if (!els.rarityOdds) return;
     els.rarityOdds.innerHTML = "";
     const pity = Math.min(100, (state.rollsSinceLegendary || 0) * 2);
-    const total = totalRarityWeight(pity);
+    const total = totalRarityWeight(pity * 2); // Two rarities get the pity bonus
     RARITY_ORDER.forEach((id) => {
-      const w = RARITY[id].weight + (id === "legendary" ? pity : 0);
+      const w =
+        RARITY[id].weight +
+        (id === "legendary" || id === "ultra-legendary" ? pity : 0);
       const pct = ((100 * w) / total).toFixed(0);
       const li = document.createElement("li");
       const lab = document.createElement("span");
@@ -650,7 +682,14 @@
     if (!els.brawlerList) return;
     els.brawlerList.innerHTML = "";
     const owned = BRAWLERS.filter((b) => countBrawler(state, b.id) > 0);
-    const order = { common: 0, rare: 1, epic: 2, mythic: 3, legendary: 4 };
+    const order = {
+      common: 0,
+      rare: 1,
+      epic: 2,
+      mythic: 3,
+      legendary: 4,
+      "ultra-legendary": 5,
+    };
     owned.sort((a, b) => order[b.rarity] - order[a.rarity] || a.name.localeCompare(b.name));
     if (owned.length === 0) {
       const empty = document.createElement("li");
@@ -696,7 +735,14 @@
   function renderCatalog() {
     if (!els.brawlerCatalog) return;
     els.brawlerCatalog.innerHTML = "";
-    const order = { common: 0, rare: 1, epic: 2, mythic: 3, legendary: 4 };
+    const order = {
+      common: 0,
+      rare: 1,
+      epic: 2,
+      mythic: 3,
+      legendary: 4,
+      "ultra-legendary": 5,
+    };
     [...BRAWLERS]
       .sort((a, b) => order[a.rarity] - order[b.rarity] || a.name.localeCompare(b.name))
       .forEach((b) => {
@@ -804,7 +850,8 @@
     if (gene > 0) {
       state.coins += Math.floor(cost * Math.min(0.45, 0.07 * gene));
     }
-    if (rarityId === "legendary") state.rollsSinceLegendary = 0;
+    if (rarityId === "legendary" || rarityId === "ultra-legendary")
+      state.rollsSinceLegendary = 0;
     else state.rollsSinceLegendary = (state.rollsSinceLegendary || 0) + 1;
     recomputeBaseStats(state);
     maybeAwardTrophy(state);
@@ -814,7 +861,11 @@
       isDupe
         ? `${brawler.name} ×${prev + 1}`
         : `${brawler.name} joins the fight!`,
-      rarityId === "legendary" ? "legend" : isDupe ? "dup" : null
+      rarityId === "legendary" || rarityId === "ultra-legendary"
+        ? "legend"
+        : isDupe
+        ? "dup"
+        : null
     );
     openReveal(brawler, rarityId, prev);
     renderAll();
