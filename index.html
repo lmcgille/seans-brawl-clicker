@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brawl Clicker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-stars" aria-hidden="true"></div>
+    <div class="app">
+      <header class="top-bar">
+        <div class="brand">
+          <span class="brand-icon">★</span>
+          <h1>Brawl Clicker</h1>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <span class="stat-label">Coins</span>
+            <span id="coins" class="stat-value">0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Per tap</span>
+            <span id="perTap" class="stat-value">1</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Per sec</span>
+            <span id="perSec" class="stat-value">0</span>
+          </div>
+          <div class="stat trophies">
+            <span class="stat-label">Trophies</span>
+            <span id="trophies" class="stat-value">0</span>
+          </div>
+        </div>
+        <button type="button" id="resetBtn" class="btn-ghost" title="Wipe save">
+          Reset
+        </button>
+      </header>
+
+      <main class="layout">
+        <section class="click-zone" aria-label="Main click area">
+          <p class="tagline">Open boxes. Power up. Climb the ladder.</p>
+          <button type="button" id="clickBtn" class="mega-box" aria-label="Tap for coins">
+            <span class="mega-box-glow"></span>
+            <span class="mega-box-label">MEGA BOX</span>
+            <span class="mega-box-sub">Tap!</span>
+          </button>
+          <p class="hint">Tip: upgrades stack. Trophies unlock at milestones.</p>
+        </section>
+
+        <aside class="upgrades" aria-label="Upgrades shop">
+          <h2>Power-ups</h2>
+          <ul id="upgradeList" class="upgrade-list"></ul>
+        </aside>
+      </main>
+
+      <footer class="footer">
+        Fan-made clicker — not affiliated with Supercell.
+      </footer>
+    </div>
+    <script src="game.js"></script>
+  </body>
+</html>
