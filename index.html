@@ -13,17 +13,24 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="bg-arena" aria-hidden="true"></div>
     <div class="bg-stars" aria-hidden="true"></div>
     <div class="app">
       <header class="top-bar">
         <div class="brand">
-          <span class="brand-icon">★</span>
-          <h1>Brawl Clicker</h1>
+          <span class="brand-shield" aria-hidden="true"></span>
+          <div class="brand-text">
+            <h1>Brawl Clicker</h1>
+            <span class="brand-sub">Starr Park fan clicker</span>
+          </div>
         </div>
         <div class="stats">
-          <div class="stat">
+          <div class="stat stat-coins">
             <span class="stat-label">Coins</span>
-            <span id="coins" class="stat-value">0</span>
+            <span class="stat-row">
+              <span class="coin-icon" aria-hidden="true"></span>
+              <span id="coins" class="stat-value">0</span>
+            </span>
           </div>
           <div class="stat">
             <span class="stat-label">Per tap</span>
@@ -33,9 +40,12 @@
             <span class="stat-label">Per sec</span>
             <span id="perSec" class="stat-value">0</span>
           </div>
-          <div class="stat trophies">
+          <div class="stat stat-trophies">
             <span class="stat-label">Trophies</span>
-            <span id="trophies" class="stat-value">0</span>
+            <span class="stat-row">
+              <span class="trophy-icon" aria-hidden="true">🏆</span>
+              <span id="trophies" class="stat-value">0</span>
+            </span>
           </div>
         </div>
         <button type="button" id="resetBtn" class="btn-ghost" title="Wipe save">
@@ -45,32 +55,43 @@
 
       <main class="layout">
         <section class="click-zone" aria-label="Main click area">
-          <p class="tagline">Open boxes. Power up. Climb the ladder.</p>
+          <p class="tagline">Tap the box. Buy power-ups. Collect every brawler.</p>
           <button type="button" id="clickBtn" class="mega-box" aria-label="Tap for coins">
             <span class="mega-box-glow"></span>
+            <span class="mega-box-ribbon">COINS</span>
             <span class="mega-box-label">MEGA BOX</span>
-            <span class="mega-box-sub">Tap!</span>
+            <span class="mega-box-sub">Tap to earn</span>
           </button>
-          <p class="hint">Tip: upgrades stack. Trophies unlock at milestones.</p>
+          <p class="hint">Trophies rise every 10K coins. Brawl Boxes unlock brawlers with real buffs.</p>
         </section>
 
         <aside class="upgrades" aria-label="Upgrades shop">
-          <h2>Power-ups</h2>
+          <h2 class="panel-title"><span class="panel-title-icon">⚡</span> Power-ups</h2>
           <ul id="upgradeList" class="upgrade-list"></ul>
         </aside>
 
-        <aside class="brawlers-panel" aria-label="Brawlers">
-          <h2>Brawl Box</h2>
+        <aside class="brawlers-panel" aria-label="Brawlers and boxes">
+          <h2 class="panel-title panel-title-cyan">
+            <span class="panel-title-icon">📦</span> Brawl Box
+          </h2>
           <p class="brawlers-intro">
-            Rarer brawlers are rolled less often. Dupes still help, but weaker than the first copy.
+            Rarity changes your odds. Legendary pity builds slowly if you go dry.
           </p>
           <ul class="rarity-odds" id="rarityOdds" aria-label="Approximate drop rates"></ul>
           <button type="button" id="openBoxBtn" class="open-box-btn">
-            Open box — <span id="boxCost">120</span> ¤
+            <span class="open-box-inner">
+              <span class="open-box-label">OPEN BOX</span>
+              <span class="open-box-price"><span id="boxCost">120</span> coins</span>
+            </span>
           </button>
           <p id="pullToast" class="pull-toast" role="status" aria-live="polite"></p>
-          <h3 class="brawlers-owned-title">Roster</h3>
+
+          <h3 class="brawlers-section-title">Your roster</h3>
           <ul id="brawlerList" class="brawler-list"></ul>
+
+          <h3 class="brawlers-section-title">Collection catalog</h3>
+          <p class="catalog-hint">Locked brawlers appear here until you pull them from a box.</p>
+          <div id="brawlerCatalog" class="catalog-grid" aria-label="All brawlers"></div>
         </aside>
       </main>
 
@@ -78,6 +99,32 @@
         Fan-made clicker — not affiliated with Supercell.
       </footer>
     </div>
+
+    <div
+      id="boxReveal"
+      class="box-reveal"
+      hidden
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="revealName"
+    >
+      <div class="box-reveal-backdrop" data-close-reveal></div>
+      <div class="box-reveal-shell">
+        <div class="box-reveal-card" id="revealCard">
+          <div class="reveal-rarity-bar" id="revealRarityBar"></div>
+          <div class="reveal-emoji" id="revealEmoji" aria-hidden="true">?</div>
+          <p class="reveal-label" id="revealKindLabel">New brawler</p>
+          <h3 class="reveal-name" id="revealName">Name</h3>
+          <p class="reveal-buff" id="revealBuff"></p>
+          <p class="reveal-meta" id="revealMeta"></p>
+          <button type="button" class="reveal-continue" id="revealContinue">
+            Awesome!
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script src="game.js"></script>
   </body>
 </html>
