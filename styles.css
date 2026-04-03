@@ -156,8 +156,22 @@ body {
 
 @media (min-width: 840px) {
   .layout {
-    grid-template-columns: 1fr 320px;
+    grid-template-columns: 1fr minmax(280px, 320px);
     align-items: start;
+  }
+
+  .brawlers-panel {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1120px) {
+  .layout {
+    grid-template-columns: 1fr minmax(280px, 320px) minmax(260px, 300px);
+  }
+
+  .brawlers-panel {
+    grid-column: auto;
   }
 }
 
@@ -355,6 +369,194 @@ body {
   cursor: not-allowed;
   filter: grayscale(0.4) brightness(0.85);
   opacity: 0.85;
+}
+
+.brawlers-panel {
+  background: rgba(26, 13, 46, 0.75);
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  border-radius: var(--radius);
+  padding: 1rem 1rem 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.brawlers-panel h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--text);
+  border-bottom: 2px solid rgba(0, 229, 255, 0.35);
+  padding-bottom: 0.5rem;
+}
+
+.brawlers-intro {
+  margin: 0 0 0.65rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.rarity-odds {
+  list-style: none;
+  margin: 0 0 0.85rem;
+  padding: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.rarity-odds li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.rarity-odds .pct {
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.open-box-btn {
+  width: 100%;
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 0.88rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(180deg, #00e5ff 0%, #0097a7 100%);
+  color: #0a1628;
+  box-shadow: 0 4px 0 #006064;
+  transition: transform 0.06s, filter 0.15s;
+}
+
+.open-box-btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #006064;
+}
+
+.open-box-btn:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.5) brightness(0.75);
+  opacity: 0.9;
+}
+
+.pull-toast {
+  min-height: 2.5rem;
+  margin: 0.65rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--success);
+  text-align: center;
+}
+
+.pull-toast.is-dup {
+  color: var(--muted);
+}
+
+.pull-toast.is-legend {
+  color: var(--accent);
+  text-shadow: 0 0 12px rgba(255, 217, 61, 0.35);
+}
+
+.brawlers-owned-title {
+  margin: 1rem 0 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.brawler-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: min(42vh, 320px);
+  overflow-y: auto;
+}
+
+.brawler-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.2rem 0.5rem;
+  padding: 0.55rem 0.65rem;
+  background: rgba(45, 27, 78, 0.5);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  align-items: start;
+}
+
+.brawler-row-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.5rem;
+}
+
+.brawler-name {
+  font-weight: 800;
+  font-size: 0.88rem;
+}
+
+.rarity-tag {
+  font-size: 0.62rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.45rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.rarity-common {
+  background: #5c6bc0;
+  color: #fff;
+}
+.rarity-rare {
+  background: #26a69a;
+  color: #fff;
+}
+.rarity-epic {
+  background: #ab47bc;
+  color: #fff;
+}
+.rarity-mythic {
+  background: #ef5350;
+  color: #fff;
+}
+.rarity-legendary {
+  background: linear-gradient(90deg, #ffd54f, #ff8f00);
+  color: #3e2723;
+}
+
+.brawler-stack {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-weight: 900;
+  font-size: 0.85rem;
+  color: var(--cyan);
+  font-variant-numeric: tabular-nums;
+}
+
+.brawler-perk {
+  grid-column: 1 / -1;
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.35;
 }
 
 .footer {

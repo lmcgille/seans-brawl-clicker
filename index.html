@@ -58,6 +58,20 @@
           <h2>Power-ups</h2>
           <ul id="upgradeList" class="upgrade-list"></ul>
         </aside>
+
+        <aside class="brawlers-panel" aria-label="Brawlers">
+          <h2>Brawl Box</h2>
+          <p class="brawlers-intro">
+            Rarer brawlers are rolled less often. Dupes still help, but weaker than the first copy.
+          </p>
+          <ul class="rarity-odds" id="rarityOdds" aria-label="Approximate drop rates"></ul>
+          <button type="button" id="openBoxBtn" class="open-box-btn">
+            Open box — <span id="boxCost">120</span> ¤
+          </button>
+          <p id="pullToast" class="pull-toast" role="status" aria-live="polite"></p>
+          <h3 class="brawlers-owned-title">Roster</h3>
+          <ul id="brawlerList" class="brawler-list"></ul>
+        </aside>
       </main>
 
       <footer class="footer">
